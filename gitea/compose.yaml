@@ -1,0 +1,102 @@
+version: "3.9"
+
+services:
+
+  # ================================
+  # Gitea - Git Server
+  # ================================
+  gitea:
+    image: gitea/gitea:latest
+    container_name: gitea_server
+    restart: always
+
+    environment:
+      USER_UID: 1000
+      USER_GID: 1000
+
+    ports:
+      - "3000:3000"   # Interface Web
+      - "222:22"      # SSH para Git
+
+    volumes:
+      # Persistência dos dados importantes
+      # Todos os dados do Gitea ficam na pasta local ./gitea
+      - ./gitea:/data
+
+
+
+# ================================
+# Pastas utilizadas
+# ================================
+# ./gitea
+#
+# Essa pasta será criada automaticamente e armazenará:
+#
+# - Repositórios Git
+# - Configurações do Gitea
+# - Banco de dados interno (SQLite)
+# - Usuários
+# - Issues
+# - Wikis
+# - Arquivos anexos
+#
+# Faça backup dessa pasta regularmente.
+# ================================
+
+
+
+# ================================
+# Acesso ao Gitea
+# ================================
+# URL:
+# http://localhost:3000
+#
+# Primeiro acesso:
+# Será exibida a tela de instalação.
+#
+# Recomendado manter:
+#
+# Database Type: SQLite3
+# Database Path: /data/gitea/gitea.db
+#
+# Após isso:
+# Crie o usuário administrador.
+# ================================
+
+
+
+# ================================
+# Como importar repositórios do GitHub para o Gitea
+# ================================
+#
+# 1 - Acesse:
+# http://localhost:3000
+#
+# 2 - Faça login
+#
+# 3 - Clique em:
+# "+"
+# → "New Migration"
+#
+# 4 - Escolha:
+# GitHub
+#
+# 5 - Cole a URL do repositório:
+# Exemplo:
+# https://github.com/usuario/repositorio
+#
+# 6 - Se o repositório for privado:
+# Gere um Token no GitHub:
+#
+# GitHub → Settings → Developer Settings
+# → Personal Access Tokens
+#
+# Copie o token e cole no campo:
+# "Access Token"
+#
+# 7 - Clique em:
+# "Migrate Repository"
+#
+# O repositório será copiado para o Gitea.
+#
+# ================================

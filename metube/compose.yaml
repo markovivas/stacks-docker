@@ -1,0 +1,63 @@
+version: "3.9"
+
+services:
+
+  # ================================
+  # MeTube - Downloader YouTube
+  # ================================
+  metube:
+    image: alexta69/metube:latest
+    container_name: metube
+    restart: unless-stopped
+
+    ports:
+      - "8085:8081"
+
+    volumes:
+      # Pasta para downloads de vídeo
+      - ./downloads:/downloads
+
+      # Pasta para downloads somente áudio
+      - ./audio-downloads:/audio-downloads
+
+    environment:
+      # Idioma da interface
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Sao_Paulo
+
+
+
+# ================================
+# Pastas utilizadas
+# ================================
+#
+# ./downloads
+# → Vídeos baixados
+#
+# ./audio-downloads
+# → Áudios baixados
+#
+# As pastas serão criadas automaticamente
+# na mesma pasta do compose.yaml
+#
+# Faça backup dessas pastas regularmente.
+#
+# ================================
+
+
+
+# ================================
+# Acesso ao MeTube
+# ================================
+#
+# URL:
+# http://localhost:8081
+#
+# Basta colar a URL do vídeo
+# e escolher:
+#
+# - Download de vídeo
+# - Download somente áudio
+#
+# ================================

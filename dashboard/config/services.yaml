@@ -1,0 +1,80 @@
+- Desenvolvimento:
+    - Gitea:
+        icon: gitea
+        href: http://192.168.2.100:3000
+        description: Hospedagem de código e controle de versão Git.
+        server: homelab
+        container: gitea_server
+
+    - XAMPP Apache:
+        icon: apache
+        href: http://192.168.2.100:9080
+        description: Servidor web local para desenvolvimento PHP (XAMPP).
+        server: homelab
+        container: xampp-apache
+
+    - XAMPP phpMyAdmin:
+        icon: phpmyadmin
+        href: http://192.168.2.100:9077
+        description: Administração de banco de dados para o ambiente XAMPP.
+        server: homelab
+        container: xampp-phpmyadmin
+
+    - XAMPP MailHog:
+        icon: mailhog
+        href: http://192.168.2.100:8025
+        description: Testes de e-mail local para desenvolvimento.
+        server: homelab
+        container: xampp-mailhog
+
+- Midia:
+    - Jellyfin:
+        icon: jellyfin
+        href: http://192.168.2.100:8096
+        description: Organização e streaming de biblioteca de mídia.
+        server: homelab
+        container: jellyfin
+
+    - MeTube:
+        icon: youtube
+        href: http://192.168.2.100:8085
+        description: Downloader de vídeos do YouTube e outras fontes.
+        server: homelab
+        container: metube
+
+- Web:
+    - WordPress:
+        icon: wordpress
+        href: http://192.168.2.100:9081
+        description: Gestão de conteúdo e publicação de sites.
+        server: homelab
+        container: wordpress_app
+
+    - phpMyAdmin (WP):
+        icon: phpmyadmin
+        href: http://192.168.2.100:9082
+        description: Administração gráfica de bancos de dados SQL para WordPress.
+        server: homelab
+        container: wordpress_phpmyadmin
+
+- Arquivos:
+    - Cloudreve:
+        icon: cloudreve
+        href: http://192.168.2.100:5212/home
+        description: Gerenciamento e compartilhamento de arquivos em nuvem.
+        server: homelab
+        container: cloudreve
+
+    - Nextcloud:
+        icon: nextcloud
+        href: http://192.168.2.100:8080
+        description: Plataforma de colaboração e armazenamento de arquivos.
+        server: homelab
+        container: nextcloud-app
+
+    - OnlyOffice:
+        icon: onlyoffice
+        href: http://192.168.2.100:8081
+        description: Suíte de edição de documentos e colaboração em tempo real.
+        server: homelab
+        container: onlyoffice-documentserver

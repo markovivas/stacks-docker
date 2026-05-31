@@ -1,0 +1,79 @@
+version: "3.9"
+
+services:
+
+  # ================================
+  # Jellyfin - Media Server
+  # ================================
+  jellyfin:
+    image: jellyfin/jellyfin:latest
+    container_name: jellyfin
+    restart: unless-stopped
+
+    ports:
+      - "8096:8096"   # Interface Web
+
+    volumes:
+      # Configurações do Jellyfin
+      - ./config:/config
+
+      # Cache do Jellyfin
+      - ./cache:/cache
+
+      # Pasta com mídias (filmes, séries, músicas)
+      - ./media:/media
+
+    environment:
+      - TZ=America/Sao_Paulo
+
+
+
+# ================================
+# Pastas utilizadas
+# ================================
+#
+# ./media
+# → Armazena seus arquivos:
+#    - Filmes
+#    - Séries
+#    - Músicas
+#    - Vídeos
+#
+# ./config
+# → Configurações do Jellyfin
+#    - Usuários
+#    - Bibliotecas
+#    - Metadados
+#
+# ./cache
+# → Cache do sistema
+#
+# Todas as pastas serão criadas automaticamente
+# na mesma pasta do compose.yaml
+#
+# Faça backup principalmente da pasta:
+# ./config
+#
+# ================================
+
+
+
+# ================================
+# Acesso ao Jellyfin
+# ================================
+#
+# URL:
+# http://localhost:8096
+#
+# Primeiro acesso:
+#
+# 1 - Criar usuário administrador
+# 2 - Adicionar biblioteca
+# 3 - Selecionar pasta:
+#
+# /media
+#
+# Depois disso, o Jellyfin irá
+# identificar automaticamente os arquivos.
+#
+# ================================

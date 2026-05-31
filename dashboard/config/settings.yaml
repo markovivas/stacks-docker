@@ -1,0 +1,33 @@
+title: Stack Control Center
+description: Painel central do HomeLab
+
+language: pt-BR
+
+theme: dark
+color: slate
+iconStyle: theme
+fullWidth: true
+
+layout:
+  Desenvolvimento:
+    columns: 2
+  Midia:
+    columns: 2
+  Web:
+    columns: 2
+  Arquivos:
+    columns: 2
+
+cardBlur: sm
+opacity: 85
+
+headerStyle: clean
+statusStyle: dot
+
+quicklaunch:
+  searchDescriptions: true
+  hideInternetSearch: false
+  showSearchSuggestions: true
+  provider: google
+
+hideVersion: true

@@ -1,0 +1,141 @@
+version: "3.9"
+
+services:
+
+  # ================================
+  # Banco de Dados MySQL
+  # ================================
+  db:
+    image: mysql:8.0
+    container_name: wordpress_db
+    restart: always
+
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wpuser
+      MYSQL_PASSWORD: wp123
+
+    volumes:
+      - db_data:/var/lib/mysql
+
+    ports:
+      - "3306:3306"
+
+
+
+  # ================================
+  # WordPress
+  # ================================
+  wordpress:
+    image: wordpress:latest
+    container_name: wordpress_app
+    restart: always
+
+    depends_on:
+      - db
+
+    ports:
+      - "9081:80"
+
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wpuser
+      WORDPRESS_DB_PASSWORD: wp123
+      WORDPRESS_DB_NAME: wordpress
+
+    volumes:
+      - ./data:/var/www/html
+
+
+
+  # ================================
+  # phpMyAdmin
+  # ================================
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: wordpress_phpmyadmin
+    restart: always
+
+    depends_on:
+      - db
+
+    ports:
+      - "9082:80"
+
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: root123
+
+
+
+  # ================================
+  # Backup automático diário
+  # ================================
+  backup:
+    image: fradelg/mysql-cron-backup
+    container_name: wordpress_backup
+    restart: always
+
+    depends_on:
+      - db
+
+    volumes:
+      - ./backups:/backup
+
+    environment:
+      MYSQL_HOST: db
+      MYSQL_USER: root
+      MYSQL_PASS: root123
+      MYSQL_DB: wordpress
+
+      # Backup diário às 02:00
+      CRON_TIME: "0 2 * * *"
+
+      # Mantém backups por 7 dias
+      MAX_BACKUPS: 7
+
+
+
+# ================================
+# Volumes
+# ================================
+volumes:
+  db_data:
+
+
+
+# ================================
+# Acesso via HeidiSQL:
+# ================================
+# Host: localhost
+# Porta: 3306
+# Usuário: wpuser
+# Senha: wp123
+# Banco: wordpress
+#
+# Ou como root:
+# Usuário root: root
+# Senha root: root123
+# ================================
+
+
+
+# ================================
+# Acesso via PhpMyAdmin:
+# ================================
+# URL: http://localhost:9082
+#
+# Servidor: db
+#
+# Usuário WordPress:
+# Usuário: wpuser
+# Senha: wp123
+#
+# Ou como root:
+# Usuário: root
+# Senha: root123
+#
+# WordPress:
+# http://localhost:9081
+# ================================

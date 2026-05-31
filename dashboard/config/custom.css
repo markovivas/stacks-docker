@@ -1,0 +1,125 @@
+body {
+  background: #0b1220 !important;
+  color: #e5eefb;
+}
+
+#__next {
+  min-height: 100vh;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0));
+}
+
+main {
+  max-width: 1800px;
+  margin: 0 auto;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+header,
+section,
+article {
+  border-radius: 20px;
+}
+
+section,
+article {
+  background: rgba(15, 23, 42, 0.72) !important;
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  box-shadow:
+    0 20px 45px rgba(2, 6, 23, 0.34),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+header {
+  background: rgba(15, 23, 42, 0.9) !important;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  box-shadow: 0 18px 40px rgba(2, 6, 23, 0.28);
+}
+
+h1,
+h2,
+h3,
+[class*="heading"],
+[class*="title"] {
+  letter-spacing: 0.02em;
+}
+
+a {
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    border-color 180ms ease,
+    background-color 180ms ease;
+}
+
+a:hover,
+article:hover {
+  transform: translateY(-2px);
+}
+
+input,
+textarea,
+select {
+  background: rgba(15, 23, 42, 0.88) !important;
+  border: 1px solid rgba(96, 165, 250, 0.2) !important;
+  border-radius: 14px !important;
+  color: #eff6ff !important;
+  box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.03);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: rgba(96, 165, 250, 0.45) !important;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.12) !important;
+}
+
+button {
+  border-radius: 14px !important;
+}
+
+[class*="service"],
+[class*="widget"],
+[class*="bookmark"] {
+  backdrop-filter: blur(18px);
+}
+
+[class*="status"] {
+  filter: saturate(1.1);
+}
+
+[class*="information-widgets"] {
+  display: grid !important;
+  grid-template-columns: minmax(0, 3fr) minmax(280px, 1fr) minmax(240px, 1fr);
+  gap: 16px;
+  align-items: stretch;
+}
+
+[class*="information-widgets"] > * {
+  min-width: 0;
+  width: auto !important;
+}
+
+[class*="information-widgets"] > :first-child {
+  grid-column: 1;
+}
+
+[class*="information-widgets"] > :nth-child(2) {
+  grid-column: 2;
+}
+
+[class*="information-widgets"] > :nth-child(3) {
+  grid-column: 3;
+}
+
+@media (max-width: 1100px) {
+  [class*="information-widgets"] {
+    grid-template-columns: 1fr;
+  }
+
+  [class*="information-widgets"] > :first-child,
+  [class*="information-widgets"] > :nth-child(2),
+  [class*="information-widgets"] > :nth-child(3) {
+    grid-column: auto;
+  }
+}

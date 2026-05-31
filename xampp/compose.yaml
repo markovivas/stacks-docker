@@ -1,0 +1,62 @@
+version: "3.9"
+
+services:
+
+  apache:
+    build: .
+    container_name: xampp-apache
+
+    ports:
+      - "9080:80"
+
+    volumes:
+      - ./site:/var/www/html
+
+    depends_on:
+      - mysql
+      - mailhog
+
+    restart: always
+
+  mysql:
+    image: mysql:8.0
+    container_name: xampp-mysql
+
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: site
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user
+
+    ports:
+      - "3307:3306"
+
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+
+    restart: always
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: xampp-phpmyadmin
+
+    depends_on:
+      - mysql
+
+    ports:
+      - "9077:80"
+
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+
+    restart: always
+
+  mailhog:
+    image: mailhog/mailhog
+    container_name: xampp-mailhog
+
+    ports:
+      - "8025:8025"
+
+    restart: always
