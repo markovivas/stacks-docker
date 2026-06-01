@@ -34,6 +34,17 @@ A pilha é composta por 4 serviços principais:
 *   `./Dockerfile`: Instruções de montagem da imagem do Apache/PHP.
 *   `./php.ini`: Configurações personalizadas do PHP.
 
+## 🔌 Configurações do MySQL
+
+As configurações do MySQL neste ambiente Docker (`compose.yaml`) são:
+
+| Parâmetro | Valor |
+|-----------|-------|
+| **Host** | `mysql` (dentro da rede Docker) ou `localhost:3307` (de fora) |
+| **Usuário** | `root` ou `user` |
+| **Senha** | `root` ou `user` |
+| **Database** | `site` |
+
 ## 🛠️ Comandos Básicos
 
 Para subir o ambiente:
