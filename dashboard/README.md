@@ -2,7 +2,7 @@
 
 Dashboard centralizado para todos os serviços Docker do homelab, usando [Homepage](https://gethomepage.dev/).
 
-Acesso: [http://localhost](http://localhost)
+Acesso: [http://localhost:8082](http://localhost:8082)
 
 ---
 
@@ -45,6 +45,19 @@ Downloader de vídeos e áudios do YouTube e outras plataformas via interface we
 | Container    | `metube`                  |
 | Downloads    | `./downloads/`            |
 | Áudio        | `./audio-downloads/`      |
+
+---
+
+### Vaultwarden
+
+Gerenciador de senhas auto-hospedado compatível com Bitwarden. Acesso via HTTPS com certificado SSL próprio.
+
+| Recurso      | Detalhe                    |
+| ------------ | -------------------------- |
+| Web          | https://localhost          |
+| Web (LAN)    | https://192.168.2.100      |
+| Container    | `vaultwarden`              |
+| Proxy        | `nginx-proxy` (porta 443)  |
 
 ---
 
@@ -104,7 +117,7 @@ Ambiente de desenvolvimento PHP local com Apache 8.2, MySQL, phpMyAdmin e MailHo
 
 | Serviço            | Porta     |
 | ------------------ | --------- |
-| Homepage Dashboard | 80        |
+| Homepage Dashboard | 8082      |
 | Gitea              | 3000      |
 | Gitea SSH          | 222       |
 | Jellyfin           | 8096      |
@@ -117,6 +130,7 @@ Ambiente de desenvolvimento PHP local com Apache 8.2, MySQL, phpMyAdmin e MailHo
 | XAMPP phpMyAdmin   | 9077      |
 | XAMPP MySQL        | 3307      |
 | XAMPP MailHog      | 8025      |
+| Vaultwarden        | 443       |
 
 ---
 

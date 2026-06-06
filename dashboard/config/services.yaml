@@ -57,6 +57,14 @@
         server: homelab
         container: wordpress_phpmyadmin
 
+- Senhas:
+    - Vaultwarden:
+        icon: bitwarden
+        href: https://192.168.2.100
+        description: Gerenciador de senhas auto-hospedado compatível com Bitwarden.
+        server: homelab
+        container: vaultwarden
+
 - Arquivos:
     - Cloudreve:
         icon: cloudreve
