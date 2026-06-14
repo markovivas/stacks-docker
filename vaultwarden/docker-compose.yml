@@ -28,3 +28,42 @@ services:
 networks:
   internal:
     driver: bridge
+
+
+
+# ================================
+# Pastas utilizadas
+# ================================
+#
+# ./data
+# → Dados do Vaultwarden
+#   (senhas, configurações, anexos)
+#
+# ./nginx
+# → Configuração do proxy Nginx
+#
+# ./ssl
+# → Certificados SSL
+#
+# Faça backup de:
+# ./data
+#
+# ================================
+
+
+
+# ================================
+# Acesso ao Vaultwarden
+# ================================
+#
+# URL:
+# https://localhost
+#
+# Admin:
+# https://localhost/admin
+#
+# Container:
+# - vaultwarden (backend)
+# - nginx-proxy (proxy reverso HTTPS)
+#
+# ================================

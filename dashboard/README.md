@@ -14,7 +14,7 @@ Servidor Git leve e auto-hospedado, alternativa ao GitHub. Gerencia repositório
 
 | Recurso     | Detalhe                 |
 | ----------- | ----------------------- |
-| Web         | http://localhost:3000   |
+| Web         | http://localhost:3001   |
 | SSH         | ssh -p 222 git@localhost |
 | Container   | `gitea_server`          |
 | Banco       | SQLite3 (interno)       |
@@ -118,7 +118,7 @@ Ambiente de desenvolvimento PHP local com Apache 8.2, MySQL, phpMyAdmin e MailHo
 | Serviço            | Porta     |
 | ------------------ | --------- |
 | Homepage Dashboard | 8082      |
-| Gitea              | 3000      |
+| Gitea              | 3001      |
 | Gitea SSH          | 222       |
 | Jellyfin           | 8096      |
 | MeTube             | 8085      |

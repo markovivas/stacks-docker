@@ -28,6 +28,11 @@ services:
 # http://localhost:8082
 #
 # Arquivos de configuração:
-# ./config
+# ./config/
+#   - services.yaml   → Serviços e links
+#   - settings.yaml   → Tema, cor, background
+#   - widgets.yaml    → CPU, memória, relógio
+#   - bookmarks.yaml  → Links favoritos
+#   - docker.yaml     → Status dos containers
 #
 # ================================

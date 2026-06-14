@@ -73,7 +73,7 @@ O Docker irá baixar automaticamente a imagem do Gitea.
 Abra no navegador:
 
 ```
-http://localhost:3000
+http://localhost:3001
 ```
 
 ---
@@ -102,13 +102,13 @@ Depois:
 
 | Porta | Função        |
 | ----- | ------------- |
-| 3000  | Interface Web |
+| 3001  | Interface Web |
 | 222   | SSH para Git  |
 
 Exemplos:
 
 ```
-http://localhost:3000
+http://localhost:3001
 ```
 
 SSH:
@@ -198,7 +198,7 @@ Você pode migrar projetos facilmente.
 1. Acesse:
 
 ```
-http://localhost:3000
+http://localhost:3001
 ```
 
 2. Faça login

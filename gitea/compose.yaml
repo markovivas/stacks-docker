@@ -13,7 +13,7 @@ services:
       USER_GID: 1000
 
     ports:
-      - "3000:3000"   # Interface Web
+      - "3001:3000"   # Interface Web
       - "222:22"      # SSH para Git
 
     volumes:

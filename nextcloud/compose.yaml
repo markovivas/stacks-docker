@@ -91,3 +91,48 @@ services:
 networks:
   nextcloud-network:
     driver: bridge
+
+
+
+# ================================
+# Pastas utilizadas
+# ================================
+#
+# ./volumes
+# → Armazena todos os dados:
+#    - db/           → MariaDB
+#    - redis/        → Cache Redis
+#    - nextcloud/    → Nextcloud (html, config, data, apps, themes)
+#    - onlyoffice/   → OnlyOffice (data, logs, lib, db)
+#
+# Todas as pastas serão criadas automaticamente.
+#
+# Faça backup principalmente de:
+# ./volumes/db
+# ./volumes/nextcloud/data
+# ./volumes/nextcloud/config
+#
+# ================================
+
+
+
+# ================================
+# Acesso ao Nextcloud + OnlyOffice
+# ================================
+#
+# Nextcloud:
+# http://localhost:8080
+#
+# OnlyOffice:
+# http://localhost:8081
+#
+# Primeiro acesso (Nextcloud):
+# 1 - Acesse http://localhost:8080
+# 2 - Crie o usuário administrador
+#
+# Integração OnlyOffice:
+# 1 - Instale o app ONLYOFFICE no Nextcloud
+# 2 - Configure o endpoint: http://onlyoffice/
+# 3 - Use o mesmo JWT_SECRET do .env
+#
+# ================================

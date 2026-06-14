@@ -1,7 +1,7 @@
 - Desenvolvimento:
     - Gitea:
         icon: gitea
-        href: http://192.168.2.100:3000
+        href: http://192.168.2.100:3001
         description: Hospedagem de código e controle de versão Git.
         server: homelab
         container: gitea_server
@@ -97,7 +97,7 @@
 - Rede:
     - AdGuard Home:
         icon: adguard
-        href: http://192.168.2.100:3030
+        href: http://192.168.2.100:3000
         description: Servidor DNS com bloqueio de anúncios e rastreadores.
         server: homelab
         container: adguardhome

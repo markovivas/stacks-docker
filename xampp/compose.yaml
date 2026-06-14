@@ -58,3 +58,41 @@ services:
       - "8025:8025"
 
     restart: always
+
+
+
+# ================================
+# Pastas utilizadas
+# ================================
+#
+# ./site
+# → Raiz web do Apache
+#
+# ./mysql/data
+# → Dados do banco MySQL
+#
+# Todas as pastas serão criadas automaticamente.
+#
+# ================================
+
+
+
+# ================================
+# Acesso ao XAMPP
+# ================================
+#
+# Apache:
+# http://localhost:9080
+#
+# phpMyAdmin:
+# http://localhost:9077
+#
+# MailHog:
+# http://localhost:8025
+#
+# MySQL (host):
+# Porta 3307
+# Usuário: root
+# Senha: root
+#
+# ================================

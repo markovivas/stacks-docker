@@ -26,7 +26,7 @@ Servidor Git leve e auto-hospedado, alternativa ao GitHub. Gerencia repositório
 
 | Recurso     | Detalhe                 |
 | ----------- | ----------------------- |
-| Web         | http://localhost:3000   |
+| Web         | http://localhost:3001   |
 | SSH         | ssh -p 222 git@localhost |
 | Container   | `gitea_server`          |
 | Banco       | SQLite3 (interno)       |
@@ -127,11 +127,11 @@ Ambiente de desenvolvimento PHP local com Apache 8.2, MySQL, phpMyAdmin e MailHo
 
 ### AdGuard Home
 
-Servidor DNS com bloqueio de anúncios e rastreadores, usando rede `host` para captura direta de tráfego DNS.
+Servidor DNS com bloqueio de anúncios e rastreadores.
 
 | Recurso      | Detalhe                    |
 | ------------ | -------------------------- |
-| Admin        | http://localhost:3030      |
+| Admin        | http://localhost:3000      |
 | DNS          | porta 53 (UDP/TCP)         |
 | Container    | `adguardhome`              |
 | Config       | `./adguard/conf/`          |
@@ -180,9 +180,9 @@ Ferramenta web para operações em PDF: divisão, união, conversão, compressã
 | Serviço            | Porta     |
 | ------------------ | --------- |
 | Homepage Dashboard | 8082      |
-| AdGuard Home       | 3030      |
+| AdGuard Home       | 3000      |
 | AdGuard DNS        | 53        |
-| Gitea              | 3000      |
+| Gitea              | 3001      |
 | Gitea SSH          | 222       |
 | Immich             | 2283      |
 | Jellyfin           | 8096      |
