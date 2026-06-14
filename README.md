@@ -8,6 +8,18 @@ Acesso: [http://localhost:8082](http://localhost:8082)
 
 ## Serviços
 
+### Dashboard (Homepage)
+
+Painel centralizado para acessar todos os serviços do homelab.
+
+| Recurso     | Detalhe                     |
+| ----------- | --------------------------- |
+| Web         | http://localhost:8082       |
+| Container   | `homepage_dashboard`        |
+| Config      | `./dashboard/config/`       |
+
+---
+
 ### Gitea
 
 Servidor Git leve e auto-hospedado, alternativa ao GitHub. Gerencia repositórios privados, issues, wikis e pull requests.
@@ -113,17 +125,72 @@ Ambiente de desenvolvimento PHP local com Apache 8.2, MySQL, phpMyAdmin e MailHo
 
 ---
 
+### AdGuard Home
+
+Servidor DNS com bloqueio de anúncios e rastreadores, usando rede `host` para captura direta de tráfego DNS.
+
+| Recurso      | Detalhe                    |
+| ------------ | -------------------------- |
+| Admin        | http://localhost:3030      |
+| DNS          | porta 53 (UDP/TCP)         |
+| Container    | `adguardhome`              |
+| Config       | `./adguard/conf/`          |
+
+---
+
+### Immich
+
+Gerenciamento de fotos e vídeos auto-hospedado, alternativa ao Google Fotos.
+
+| Recurso          | Detalhe                       |
+| ---------------- | ----------------------------- |
+| Web              | http://localhost:2283         |
+| Container server | `immich-server`               |
+| Container db     | `immich-database` (PostgreSQL)|
+| Uploads          | `./immich/volumes/upload/`    |
+
+---
+
+### Paperless-ngx
+
+Sistema de gerenciamento de documentos. Organiza, indexa e disponibiliza busca em documentos digitalizados.
+
+| Recurso          | Detalhe                            |
+| ---------------- | ---------------------------------- |
+| Web              | http://localhost:8000              |
+| Container server | `paperless-webserver`              |
+| Container db     | `paperless-db` (PostgreSQL)        |
+| Pasta consumo    | `./paperless/volumes/consume/`     |
+
+---
+
+### Stirling PDF
+
+Ferramenta web para operações em PDF: divisão, união, conversão, compressão e OCR.
+
+| Recurso           | Detalhe                     |
+| ----------------- | --------------------------- |
+| Web               | http://localhost:8090       |
+| Container         | `stirling-pdf`              |
+
+---
+
 ## Tabela de Portas
 
 | Serviço            | Porta     |
 | ------------------ | --------- |
 | Homepage Dashboard | 8082      |
+| AdGuard Home       | 3030      |
+| AdGuard DNS        | 53        |
 | Gitea              | 3000      |
 | Gitea SSH          | 222       |
+| Immich             | 2283      |
 | Jellyfin           | 8096      |
 | MeTube             | 8085      |
 | Nextcloud          | 8080      |
 | OnlyOffice         | 8081      |
+| Paperless-ngx      | 8000      |
+| Stirling PDF       | 8090      |
 | WordPress          | 9081      |
 | phpMyAdmin (WP)    | 9082      |
 | XAMPP Apache       | 9080      |

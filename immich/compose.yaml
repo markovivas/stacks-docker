@@ -1,0 +1,143 @@
+version: "3.9"
+
+services:
+
+  immich-database:
+    image: tensorchord/pgvecto-rs:pg14-v0.2.0
+    container_name: immich-database
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_USER: immich
+      POSTGRES_PASSWORD: immich_password_change_me
+      POSTGRES_DB: immich
+
+    volumes:
+      - ./volumes/database:/var/lib/postgresql/data
+
+    healthcheck:
+      test: pg_isready -U immich --dbname immich
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+    networks:
+      - immich-network
+
+  immich-redis:
+    image: redis:7-alpine
+    container_name: immich-redis
+    restart: unless-stopped
+
+    healthcheck:
+      test: redis-cli ping
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+    networks:
+      - immich-network
+
+  immich-machine-learning:
+    image: ghcr.io/immich-app/immich-machine-learning:latest
+    container_name: immich-machine-learning
+    restart: unless-stopped
+
+    environment:
+      DB_HOSTNAME: immich-database
+      DB_USERNAME: immich
+      DB_PASSWORD: immich_password_change_me
+      DB_DATABASE_NAME: immich
+      REDIS_HOSTNAME: immich-redis
+
+    volumes:
+      - ./volumes/model-cache:/cache
+
+    depends_on:
+      immich-database:
+        condition: service_healthy
+      immich-redis:
+        condition: service_healthy
+
+    networks:
+      - immich-network
+
+  immich-server:
+    image: ghcr.io/immich-app/immich-server:latest
+    container_name: immich-server
+    restart: unless-stopped
+
+    ports:
+      - "2283:2283"
+
+    environment:
+      DB_HOSTNAME: immich-database
+      DB_USERNAME: immich
+      DB_PASSWORD: immich_password_change_me
+      DB_DATABASE_NAME: immich
+      REDIS_HOSTNAME: immich-redis
+      IMMICH_MACHINE_LEARNING_URL: http://immich-machine-learning:3003
+
+    volumes:
+      - ./volumes/upload:/usr/src/app/upload
+      - ./volumes/profile:/usr/src/app/profile
+      - ./volumes/thumbs:/usr/src/app/thumbs
+      - ./volumes/encoded-video:/usr/src/app/encoded-video
+
+    depends_on:
+      immich-database:
+        condition: service_healthy
+      immich-redis:
+        condition: service_healthy
+      immich-machine-learning:
+        condition: service_started
+
+    networks:
+      - immich-network
+
+networks:
+  immich-network:
+    driver: bridge
+
+
+
+# ================================
+# Pastas utilizadas
+# ================================
+#
+# ./volumes
+# → Armazena todos os dados:
+#    - database/  → PostgreSQL
+#    - upload/    → Fotos e vídeos originais
+#    - profile/   → Fotos de perfil
+#    - thumbs/    → Miniaturas
+#    - encoded-video/ → Vídeos transcodificados
+#    - model-cache/   → Cache ML
+#
+# Todas as pastas serão criadas automaticamente.
+#
+# Faça backup principalmente de:
+# ./volumes/database
+# ./volumes/upload
+#
+# ================================
+
+
+
+# ================================
+# Acesso ao Immich
+# ================================
+#
+# URL:
+# http://localhost:2283
+#
+# Primeiro acesso:
+#
+# 1 - Abra o navegador em:
+# http://localhost:2283
+#
+# 2 - Crie o usuário administrador
+#
+# 3 - Comece a fazer upload das fotos
+#
+# ================================

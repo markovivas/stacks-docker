@@ -42,6 +42,13 @@
         server: homelab
         container: metube
 
+    - Immich:
+        icon: immich
+        href: http://192.168.2.100:2283
+        description: Gerenciamento de fotos e vídeos auto-hospedado.
+        server: homelab
+        container: immich-server
+
 - Web:
     - WordPress:
         icon: wordpress
@@ -86,3 +93,26 @@
         description: Suíte de edição de documentos e colaboração em tempo real.
         server: homelab
         container: onlyoffice-documentserver
+
+- Rede:
+    - AdGuard Home:
+        icon: adguard
+        href: http://192.168.2.100:3030
+        description: Servidor DNS com bloqueio de anúncios e rastreadores.
+        server: homelab
+        container: adguardhome
+
+- Documentos:
+    - Paperless-ngx:
+        icon: paperless
+        href: http://192.168.2.100:8000
+        description: Gerenciamento e indexação de documentos digitalizados.
+        server: homelab
+        container: paperless-webserver
+
+    - Stirling PDF:
+        icon: pdftools
+        href: http://192.168.2.100:8090
+        description: Ferramentas diversas para manipulação de PDFs.
+        server: homelab
+        container: stirling-pdf
