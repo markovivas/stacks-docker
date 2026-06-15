@@ -1,8 +1,40 @@
 services:
 
+  immich-server:
+    container_name: immich-server
+    image: ghcr.io/immich-app/immich-server:release
+    restart: unless-stopped
+
+    depends_on:
+      - immich-database
+
+    ports:
+      - "2283:2283"
+
+    environment:
+      TZ: America/Sao_Paulo
+      DB_HOSTNAME: immich-database
+      DB_USERNAME: immich
+      DB_PASSWORD: immich_password_change_me
+      DB_DATABASE_NAME: immich
+
+    volumes:
+      - ./volumes/upload:/usr/src/app/upload
+      - ./volumes/profile:/usr/src/app/upload/profile
+      - ./volumes/thumbs:/usr/src/app/upload/thumbs
+      - ./volumes/encoded-video:/usr/src/app/upload/encoded-video
+
+  immich-machine-learning:
+    container_name: immich-machine-learning
+    image: ghcr.io/immich-app/immich-machine-learning:release
+    restart: unless-stopped
+
+    volumes:
+      - ./volumes/model-cache:/cache
+
   immich-database:
-    image: tensorchord/pgvecto-rs:pg14-v0.2.0
     container_name: immich-database
+    image: tensorchord/pgvecto-rs:pg14-v0.2.0
     restart: unless-stopped
 
     environment:
@@ -13,90 +45,9 @@ services:
     volumes:
       - ./volumes/database:/var/lib/postgresql/data
 
-    healthcheck:
-      test: pg_isready -U immich --dbname immich
-      interval: 10s
-      timeout: 5s
-      retries: 10
-
-    networks:
-      - immich-network
-
-  immich-redis:
-    image: redis:7-alpine
-    container_name: immich-redis
-    restart: unless-stopped
-
-    healthcheck:
-      test: redis-cli ping
-      interval: 10s
-      timeout: 5s
-      retries: 10
-
-    networks:
-      - immich-network
-
-  immich-machine-learning:
-    image: ghcr.io/immich-app/immich-machine-learning:latest
-    container_name: immich-machine-learning
-    restart: unless-stopped
-
-    environment:
-      DB_HOSTNAME: immich-database
-      DB_USERNAME: immich
-      DB_PASSWORD: immich_password_change_me
-      DB_DATABASE_NAME: immich
-      REDIS_HOSTNAME: immich-redis
-
-    volumes:
-      - ./volumes/model-cache:/cache
-
-    depends_on:
-      immich-database:
-        condition: service_healthy
-      immich-redis:
-        condition: service_healthy
-
-    networks:
-      - immich-network
-
-  immich-server:
-    image: ghcr.io/immich-app/immich-server:latest
-    container_name: immich-server
-    restart: unless-stopped
-
-    ports:
-      - "2283:2283"
-
-    environment:
-      DB_HOSTNAME: immich-database
-      DB_USERNAME: immich
-      DB_PASSWORD: immich_password_change_me
-      DB_DATABASE_NAME: immich
-      REDIS_HOSTNAME: immich-redis
-      IMMICH_MACHINE_LEARNING_URL: http://immich-machine-learning:3003
-
-    volumes:
-      - ./volumes/upload:/usr/src/app/upload
-      - ./volumes/profile:/usr/src/app/profile
-      - ./volumes/thumbs:/usr/src/app/thumbs
-      - ./volumes/encoded-video:/usr/src/app/encoded-video
-
-    depends_on:
-      immich-database:
-        condition: service_healthy
-      immich-redis:
-        condition: service_healthy
-      immich-machine-learning:
-        condition: service_started
-
-    networks:
-      - immich-network
-
 networks:
-  immich-network:
-    driver: bridge
-
+  default:
+    name: immich-network
 
 
 # ================================

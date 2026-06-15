@@ -201,6 +201,30 @@ Ferramenta web para operações em PDF: divisão, união, conversão, compressã
 
 ---
 
+## Variáveis de Ambiente (.env)
+
+O `.env` é opcional. Sem ele, os serviços usam valores fixos definidos nos `compose.yaml`:
+
+| Serviço | Sem .env funciona? | Valores hardcoded atuais |
+|---------|:------------------:|--------------------------|
+| AdGuard Home | Sim | — |
+| Dashboard | Sim | — |
+| Gitea | Sim | — |
+| Jellyfin | Sim | — |
+| MeTube | Sim | — |
+| Vaultwarden | Sim | `ADMIN_TOKEN` fixo |
+| Nextcloud | Sim | `root_password_change_me`, `nextcloud_password_change_me`, `your_jwt_secret_change_me` |
+| OnlyOffice | Sim | `your_jwt_secret_change_me` |
+| Immich | Sim | `immich_password_change_me` |
+| Paperless-ngx | Sim | `paperless_password_change_me`, `change_me_to_a_random_secret_key` |
+| Stirling PDF | Sim | — |
+| WordPress | Sim | `root123`, `wp123` |
+| XAMPP | Sim | `root`, `user` |
+
+⚠️ Recomendo alterar essas senhas antes de expor os serviços à rede.
+
+---
+
 ## Comandos úteis
 
 ```bash
