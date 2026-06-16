@@ -1,79 +1,35 @@
 services:
 
-  paperless-db:
-    image: postgres:16
-    container_name: paperless-db
-    restart: unless-stopped
-
-    environment:
-      POSTGRES_USER: paperless
-      POSTGRES_PASSWORD: paperless_password_change_me
-      POSTGRES_DB: paperless
-
-    volumes:
-      - ./volumes/database:/var/lib/postgresql/data
-
-    healthcheck:
-      test: pg_isready -U paperless --dbname paperless
-      interval: 10s
-      timeout: 5s
-      retries: 10
-
-    networks:
-      - paperless-network
-
-  paperless-broker:
-    image: redis:7-alpine
+  broker:
+    image: docker.io/library/redis:7
     container_name: paperless-broker
     restart: unless-stopped
+    volumes:
+      - redisdata:/data
 
-    healthcheck:
-      test: redis-cli ping
-      interval: 10s
-      timeout: 5s
-      retries: 10
-
-    networks:
-      - paperless-network
-
-  paperless-webserver:
+  webserver:
     image: ghcr.io/paperless-ngx/paperless-ngx:latest
     container_name: paperless-webserver
     restart: unless-stopped
-
+    depends_on:
+      - broker
     ports:
       - "8000:8000"
-
-    environment:
-      PAPERLESS_REDIS: redis://paperless-broker:6379
-      PAPERLESS_DBHOST: paperless-db
-      PAPERLESS_DBUSER: paperless
-      PAPERLESS_DBPASS: paperless_password_change_me
-      PAPERLESS_DBNAME: paperless
-      PAPERLESS_SECRET_KEY: change_me_to_a_random_secret_key
-      PAPERLESS_URL: http://localhost:8000
-      PAPERLESS_TIME_ZONE: America/Sao_Paulo
-      PAPERLESS_OCR_LANGUAGE: por
-      PAPERLESS_CONSUMPTION_DIR: /usr/src/paperless/consume
-
     volumes:
-      - ./volumes/data:/usr/src/paperless/data
-      - ./volumes/media:/usr/src/paperless/media
-      - ./volumes/consume:/usr/src/paperless/consume
-      - ./volumes/export:/usr/src/paperless/export
+      - localdata:/usr/src/paperless/data
+      - localmedia:/usr/src/paperless/media
+      - ./export:/usr/src/paperless/export
+      - ./consume:/usr/src/paperless/consume
+    environment:
+      PAPERLESS_REDIS: redis://broker:6379
+      PAPERLESS_TIME_ZONE: "America/Sao_Paulo"
+      PAPERLESS_OCR_LANGUAGE: "eng"
+      PAPERLESS_SECRET_KEY: "mude-esse-segredo-para-uma-chave-longa-e-aleatoria"
 
-    depends_on:
-      paperless-db:
-        condition: service_healthy
-      paperless-broker:
-        condition: service_healthy
-
-    networks:
-      - paperless-network
-
-networks:
-  paperless-network:
-    driver: bridge
+volumes:
+  redisdata:
+  localdata:
+  localmedia:
 
 
 
@@ -81,20 +37,16 @@ networks:
 # Pastas utilizadas
 # ================================
 #
-# ./volumes
-# → Armazena todos os dados:
-#    - database/  → PostgreSQL
-#    - data/      → Configurações e cache
-#    - media/     → Documentos processados
-#    - consume/   → Pasta para arquivos novos
-#    - export/    → Exportações
+# ./export
+# → Exportações de documentos
 #
-# Todas as pastas serão criadas automaticamente.
+# ./consume
+# → Coloque arquivos aqui para
+#   o Paperless processar
 #
-# Faça backup principalmente de:
-# ./volumes/database
-# ./volumes/data
-# ./volumes/media
+# As pastas redisdata, localdata e
+# localmedia são gerenciadas pelo
+# Docker (named volumes).
 #
 # ================================
 
@@ -117,7 +69,7 @@ networks:
 # http://localhost:8000
 #
 # 3 - Coloque documentos na pasta:
-# ./volumes/consume/
+# ./consume/
 #
 # O Paperless irá processar automaticamente.
 #

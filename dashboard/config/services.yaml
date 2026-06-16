@@ -43,7 +43,7 @@
         container: metube
 
     - Immich:
-        icon: immich
+        icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/immich.png
         href: http://192.168.2.100:2283
         description: Gerenciamento de fotos e vídeos auto-hospedado.
         server: homelab
@@ -73,13 +73,6 @@
         container: vaultwarden
 
 - Arquivos:
-    - Cloudreve:
-        icon: cloudreve
-        href: http://192.168.2.100:5212/home
-        description: Gerenciamento e compartilhamento de arquivos em nuvem.
-        server: homelab
-        container: cloudreve
-
     - Nextcloud:
         icon: nextcloud
         href: http://192.168.2.100:8080
@@ -96,22 +89,29 @@
 
 - Rede:
     - AdGuard Home:
-        icon: adguard
+        icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/adguard-home.png
         href: http://192.168.2.100:3000
         description: Servidor DNS com bloqueio de anúncios e rastreadores.
         server: homelab
         container: adguardhome
 
+    - Portainer:
+        icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/portainer.png
+        href: https://192.168.2.100:9443
+        description: Gerenciamento de containers Docker via interface web.
+        server: homelab
+        container: portainer
+
 - Documentos:
     - Paperless-ngx:
-        icon: paperless
+        icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/paperless-ngx.png
         href: http://192.168.2.100:8000
         description: Gerenciamento e indexação de documentos digitalizados.
         server: homelab
         container: paperless-webserver
 
     - Stirling PDF:
-        icon: pdftools
+        icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/stirling-pdf.png
         href: http://192.168.2.100:8090
         description: Ferramentas diversas para manipulação de PDFs.
         server: homelab

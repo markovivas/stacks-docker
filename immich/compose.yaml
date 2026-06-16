@@ -1,73 +1,59 @@
+# Arquivo Docker Compose do Immich
+# Nota: Este arquivo depende das variáveis definidas no arquivo `.env` no mesmo diretório.
+
 services:
-
   immich-server:
-    container_name: immich-server
+    container_name: immich_server
     image: ghcr.io/immich-app/immich-server:release
-    restart: unless-stopped
-
-    depends_on:
-      - immich-database
-
+    volumes:
+      - ${UPLOAD_LOCATION}:/usr/src/app/upload
+      - /etc/localtime:/etc/localtime:ro
+    env_file:
+      - .env
     ports:
       - "2283:2283"
-
-    environment:
-      TZ: America/Sao_Paulo
-      DB_HOSTNAME: immich-database
-      DB_USERNAME: immich
-      DB_PASSWORD: immich_password_change_me
-      DB_DATABASE_NAME: immich
-
-    volumes:
-      - ./volumes/upload:/usr/src/app/upload
-      - ./volumes/profile:/usr/src/app/upload/profile
-      - ./volumes/thumbs:/usr/src/app/upload/thumbs
-      - ./volumes/encoded-video:/usr/src/app/upload/encoded-video
+    depends_on:
+      - redis
+      - database
+    restart: unless-stopped
 
   immich-machine-learning:
-    container_name: immich-machine-learning
+    container_name: immich_machine_learning
     image: ghcr.io/immich-app/immich-machine-learning:release
-    restart: unless-stopped
-
     volumes:
-      - ./volumes/model-cache:/cache
-
-  immich-database:
-    container_name: immich-database
-    image: tensorchord/pgvecto-rs:pg14-v0.2.0
+      - model-cache:/cache
+    env_file:
+      - .env
     restart: unless-stopped
 
+  redis:
+    container_name: immich_redis
+    image: docker.io/library/redis:6.2-alpine
+    restart: unless-stopped
+
+  database:
+    container_name: immich_postgres
+    image: docker.io/tensorchord/pgvecto-rs:pg14-v0.2.0
     environment:
-      POSTGRES_USER: immich
-      POSTGRES_PASSWORD: immich_password_change_me
-      POSTGRES_DB: immich
-
+      POSTGRES_DB: ${DB_DATABASE_NAME}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     volumes:
-      - ./volumes/database:/var/lib/postgresql/data
+      - ${DB_DATA_LOCATION}:/var/lib/postgresql/data
+    restart: unless-stopped
+    command: ["postgres", "-c", "shared_preload_libraries=vectors.so", "-c", "shared_buffers=512MB", "-c", "row_security=off"]
 
-networks:
-  default:
-    name: immich-network
+volumes:
+  model-cache:
+
 
 
 # ================================
-# Pastas utilizadas
+# Arquivo .env obrigatório
 # ================================
 #
-# ./volumes
-# → Armazena todos os dados:
-#    - database/  → PostgreSQL
-#    - upload/    → Fotos e vídeos originais
-#    - profile/   → Fotos de perfil
-#    - thumbs/    → Miniaturas
-#    - encoded-video/ → Vídeos transcodificados
-#    - model-cache/   → Cache ML
-#
-# Todas as pastas serão criadas automaticamente.
-#
-# Faça backup principalmente de:
-# ./volumes/database
-# ./volumes/upload
+# Copie o .env.example para .env
+# e ajuste os valores.
 #
 # ================================
 
@@ -82,11 +68,8 @@ networks:
 #
 # Primeiro acesso:
 #
-# 1 - Abra o navegador em:
-# http://localhost:2283
-#
+# 1 - Acesse http://localhost:2283
 # 2 - Crie o usuário administrador
-#
 # 3 - Comece a fazer upload das fotos
 #
 # ================================

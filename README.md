@@ -175,6 +175,18 @@ Ferramenta web para operações em PDF: divisão, união, conversão, compressã
 
 ---
 
+### Portainer
+
+Interface web para gerenciar todos os containers Docker do host.
+
+| Recurso           | Detalhe                     |
+| ----------------- | --------------------------- |
+| Web (HTTPS)       | https://localhost:9443      |
+| Web (HTTP)        | http://localhost:9000       |
+| Container         | `portainer`                 |
+
+---
+
 ## Tabela de Portas
 
 | Serviço            | Porta     |
@@ -197,6 +209,7 @@ Ferramenta web para operações em PDF: divisão, união, conversão, compressã
 | XAMPP phpMyAdmin   | 9077      |
 | XAMPP MySQL        | 3307      |
 | XAMPP MailHog      | 8025      |
+| Portainer          | 9443      |
 | Vaultwarden        | 443       |
 
 ---
@@ -217,6 +230,7 @@ O `.env` é opcional. Sem ele, os serviços usam valores fixos definidos nos `co
 | OnlyOffice | Sim | `your_jwt_secret_change_me` |
 | Immich | Sim | `immich_password_change_me` |
 | Paperless-ngx | Sim | `paperless_password_change_me`, `change_me_to_a_random_secret_key` |
+| Portainer | Sim | — |
 | Stirling PDF | Sim | — |
 | WordPress | Sim | `root123`, `wp123` |
 | XAMPP | Sim | `root`, `user` |
