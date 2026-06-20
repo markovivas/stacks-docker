@@ -42,6 +42,13 @@
         server: homelab
         container: metube
 
+    - Transmission:
+        icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/transmission.png
+        href: http://192.168.2.100:9091
+        description: Cliente de torrents integrado ao Jellyfin.
+        server: homelab
+        container: transmission
+
     - Immich:
         icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/immich.png
         href: http://192.168.2.100:2283

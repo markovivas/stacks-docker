@@ -24,6 +24,32 @@ services:
     environment:
       - TZ=America/Sao_Paulo
 
+  # ================================
+  # Transmission - Torrent Client
+  # ================================
+  transmission:
+    image: linuxserver/transmission:latest
+    container_name: transmission
+    restart: unless-stopped
+
+    ports:
+      - "9091:9091"   # Interface Web
+      - "51413:51413" # Porta de peer
+
+    volumes:
+      # Configurações do Transmission
+      - ./transmission/config:/config
+
+      # Downloads completados (já aparece no Jellyfin)
+      - ./media/transmission:/downloads
+
+    environment:
+      - TZ=America/Sao_Paulo
+      - PUID=1000
+      - PGID=1000
+      - USER=admin
+      - PASS=transmission
+
 
 
 # ================================
@@ -36,6 +62,7 @@ services:
 #    - Séries
 #    - Músicas
 #    - Vídeos
+#    - transmission/ (downloads torrents)
 #
 # ./config
 # → Configurações do Jellyfin
@@ -45,6 +72,9 @@ services:
 #
 # ./cache
 # → Cache do sistema
+#
+# ./transmission/config
+# → Configurações do Transmission
 #
 # Todas as pastas serão criadas automaticamente
 # na mesma pasta do compose.yaml
@@ -57,13 +87,16 @@ services:
 
 
 # ================================
-# Acesso ao Jellyfin
+# Acesso
 # ================================
 #
-# URL:
+# Jellyfin:
 # http://localhost:8096
 #
-# Primeiro acesso:
+# Transmission:
+# http://localhost:9091
+#
+# Primeiro acesso (Jellyfin):
 #
 # 1 - Criar usuário administrador
 # 2 - Adicionar biblioteca

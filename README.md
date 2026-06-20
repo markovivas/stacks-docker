@@ -47,6 +47,18 @@ Servidor de streaming de mídia. Organiza e reproduz filmes, séries, músicas e
 
 ---
 
+### Transmission
+
+Cliente de torrents integrado ao Jellyfin. Downloads completados ficam em `./media/transmission/` e aparecem automaticamente no Jellyfin.
+
+| Recurso           | Detalhe                     |
+| ----------------- | --------------------------- |
+| Web               | http://localhost:9091       |
+| Container         | `transmission`              |
+| Downloads         | `./jellyfin/media/transmission/` |
+
+---
+
 ### MeTube
 
 Downloader de vídeos e áudios do YouTube e outras plataformas via interface web.
@@ -198,6 +210,7 @@ Interface web para gerenciar todos os containers Docker do host.
 | Gitea SSH          | 222       |
 | Immich             | 2283      |
 | Jellyfin           | 8096      |
+| Transmission       | 9091      |
 | MeTube             | 8085      |
 | Nextcloud          | 8080      |
 | OnlyOffice         | 8081      |
