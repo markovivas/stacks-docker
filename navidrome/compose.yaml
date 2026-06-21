@@ -16,7 +16,7 @@ services:
 
     volumes:
       - ./data:/data
-      - /path/to/your/music:/music:ro
+      - ./music:/music:ro
 
 
 
