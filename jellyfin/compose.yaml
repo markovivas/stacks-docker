@@ -9,78 +9,58 @@ services:
     restart: unless-stopped
 
     ports:
-      - "8096:8096"   # Interface Web
+      - "8096:8096"
 
     volumes:
-      # Configurações do Jellyfin
       - ./config:/config
-
-      # Cache do Jellyfin
       - ./cache:/cache
-
-      # Pasta com mídias (filmes, séries, músicas)
       - ./media:/media
 
     environment:
       - TZ=America/Sao_Paulo
 
   # ================================
-  # Transmission - Torrent Client
+  # qBittorrent - Torrent Client
   # ================================
-  transmission:
-    image: linuxserver/transmission:latest
-    container_name: transmission
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:latest
+    container_name: qbittorrent
     restart: unless-stopped
 
     ports:
-      - "9091:9091"   # Interface Web
-      - "51413:51413" # Porta de peer
+      - "9091:8080"
+      - "6881:6881"
+      - "6881:6881/udp"
 
     volumes:
-      # Configurações do Transmission
-      - ./transmission/config:/config
-
-      # Downloads completados (já aparece no Jellyfin)
-      - ./media/transmission:/downloads
+      - ./qbittorrent/config:/config
+      - ./media/qBittorrent:/downloads
 
     environment:
       - TZ=America/Sao_Paulo
       - PUID=1000
       - PGID=1000
-      - USER=admin
-      - PASS=transmission
+      - UMASK=022
+      - WEBUI_PORT=8080
 
 
 
 # ================================
-# Pastas utilizadas
+# Estrutura de Pastas
 # ================================
 #
-# ./media
-# → Armazena seus arquivos:
-#    - Filmes
-#    - Séries
-#    - Músicas
-#    - Vídeos
-#    - transmission/ (downloads torrents)
-#
-# ./config
-# → Configurações do Jellyfin
-#    - Usuários
-#    - Bibliotecas
-#    - Metadados
-#
-# ./cache
-# → Cache do sistema
-#
-# ./transmission/config
-# → Configurações do Transmission
-#
-# Todas as pastas serão criadas automaticamente
-# na mesma pasta do compose.yaml
-#
-# Faça backup principalmente da pasta:
-# ./config
+# .
+# ├── compose.yaml
+# ├── cache/
+# ├── config/
+# ├── media/
+# │   ├── Filmes/
+# │   ├── Series/
+# │   ├── Musicas/
+# │   ├── Videos/
+# │   └── qBittorrent/
+# └── qbittorrent/
+#     └── config/
 #
 # ================================
 
@@ -93,18 +73,9 @@ services:
 # Jellyfin:
 # http://localhost:8096
 #
-# Transmission:
+# qBittorrent:
 # http://localhost:9091
-#
-# Primeiro acesso (Jellyfin):
-#
-# 1 - Criar usuário administrador
-# 2 - Adicionar biblioteca
-# 3 - Selecionar pasta:
-#
-# /media
-#
-# Depois disso, o Jellyfin irá
-# identificar automaticamente os arquivos.
+# Usuário: admin
+# Senha: adminadmin
 #
 # ================================

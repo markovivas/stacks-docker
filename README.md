@@ -47,15 +47,15 @@ Servidor de streaming de mídia. Organiza e reproduz filmes, séries, músicas e
 
 ---
 
-### Transmission
+### qBittorrent
 
-Cliente de torrents integrado ao Jellyfin. Downloads completados ficam em `./media/transmission/` e aparecem automaticamente no Jellyfin.
+Cliente de torrents integrado ao Jellyfin. Downloads completados ficam em `./media/qBittorrent/` e aparecem automaticamente no Jellyfin.
 
 | Recurso           | Detalhe                     |
 | ----------------- | --------------------------- |
 | Web               | http://localhost:9091       |
-| Container         | `transmission`              |
-| Downloads         | `./jellyfin/media/transmission/` |
+| Container         | `qbittorrent`               |
+| Downloads         | `./jellyfin/media/qBittorrent/` |
 
 ---
 
