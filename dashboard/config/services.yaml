@@ -56,6 +56,13 @@
         server: homelab
         container: immich-server
 
+    - Navidrome:
+        icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/navidrome.png
+        href: http://192.168.2.100:4533
+        description: Servidor de streaming de música auto-hospedado.
+        server: homelab
+        container: navidrome
+
 - Web:
     - WordPress:
         icon: wordpress

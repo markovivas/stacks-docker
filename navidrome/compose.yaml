@@ -1,0 +1,51 @@
+services:
+
+  navidrome:
+    image: deluan/navidrome:latest
+    container_name: navidrome
+    restart: unless-stopped
+
+    ports:
+      - "4533:4533"
+
+    environment:
+      ND_SCANSCHEDULE: 1h
+      ND_LOGLEVEL: info
+      ND_BASEURL: ""
+      ND_SESSIONTIMEOUT: 720h
+
+    volumes:
+      - ./data:/data
+      - /path/to/your/music:/music:ro
+
+
+
+# ================================
+# Pastas utilizadas
+# ================================
+#
+# ./data
+# → Configurações e banco de dados
+#
+# /path/to/your/music
+# → Sua pasta de músicas
+#   (altere no compose.yaml)
+#
+# ================================
+
+
+
+# ================================
+# Acesso ao Navidrome
+# ================================
+#
+# URL:
+# http://localhost:4533
+#
+# Primeiro acesso:
+#
+# 1 - Acesse http://localhost:4533
+# 2 - Crie o usuário administrador
+# 3 - Configure a pasta de músicas
+#
+# ================================

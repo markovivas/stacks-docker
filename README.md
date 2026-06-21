@@ -187,6 +187,17 @@ Ferramenta web para operações em PDF: divisão, união, conversão, compressã
 
 ---
 
+### Navidrome
+
+Servidor de streaming de música auto-hospedado. Interface web para ouvir de qualquer dispositivo.
+
+| Recurso     | Detalhe                   |
+| ----------- | ------------------------- |
+| Web         | http://localhost:4533     |
+| Container   | `navidrome`               |
+
+---
+
 ### Portainer
 
 Interface web para gerenciar todos os containers Docker do host.
@@ -216,6 +227,7 @@ Interface web para gerenciar todos os containers Docker do host.
 | OnlyOffice         | 8081      |
 | Paperless-ngx      | 8000      |
 | Stirling PDF       | 8090      |
+| Navidrome          | 4533      |
 | WordPress          | 9081      |
 | phpMyAdmin (WP)    | 9082      |
 | XAMPP Apache       | 9080      |
