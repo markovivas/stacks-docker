@@ -1,7 +1,7 @@
 services:
 
   # ================================
-  # Jellyfin - Media Server
+  # Jellyfin
   # ================================
   jellyfin:
     image: jellyfin/jellyfin:latest
@@ -11,16 +11,16 @@ services:
     ports:
       - "8096:8096"
 
+    environment:
+      TZ: America/Sao_Paulo
+
     volumes:
       - ./config:/config
       - ./cache:/cache
       - ./media:/media
 
-    environment:
-      - TZ=America/Sao_Paulo
-
   # ================================
-  # qBittorrent - Torrent Client
+  # qBittorrent
   # ================================
   qbittorrent:
     image: lscr.io/linuxserver/qbittorrent:latest
@@ -28,20 +28,20 @@ services:
     restart: unless-stopped
 
     ports:
-      - "9091:8080"
-      - "6881:6881"
-      - "6881:6881/udp"
+      - "8080:8080"       # WebUI
+      - "6881:6881/tcp"   # BitTorrent
+      - "6881:6881/udp"   # DHT/UDP
+
+    environment:
+      PUID: 1000
+      PGID: 1000
+      TZ: America/Sao_Paulo
+      WEBUI_PORT: 8080
+      UMASK: "022"
 
     volumes:
       - ./qbittorrent/config:/config
       - ./media/qBittorrent:/downloads
-
-    environment:
-      - TZ=America/Sao_Paulo
-      - PUID=1000
-      - PGID=1000
-      - UMASK=022
-      - WEBUI_PORT=8080
 
 
 
@@ -74,8 +74,9 @@ services:
 # http://localhost:8096
 #
 # qBittorrent:
-# http://localhost:9091
+# http://localhost:8080
 # Usuário: admin
-# Senha: adminadmin
+# Senha: veja os logs:
+# docker logs -f qbittorrent
 #
 # ================================

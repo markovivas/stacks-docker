@@ -53,7 +53,7 @@ Cliente de torrents integrado ao Jellyfin. Downloads completados ficam em `./med
 
 | Recurso           | Detalhe                     |
 | ----------------- | --------------------------- |
-| Web               | http://localhost:9091       |
+| Web               | http://localhost:8080       |
 | Container         | `qbittorrent`               |
 | Downloads         | `./jellyfin/media/qBittorrent/` |
 
@@ -210,7 +210,7 @@ Interface web para gerenciar todos os containers Docker do host.
 | Gitea SSH          | 222       |
 | Immich             | 2283      |
 | Jellyfin           | 8096      |
-| Transmission       | 9091      |
+| qBittorrent        | 8080      |
 | MeTube             | 8085      |
 | Nextcloud          | 8080      |
 | OnlyOffice         | 8081      |
@@ -263,6 +263,9 @@ docker compose down
 
 # Logs
 docker logs homepage_dashboard
+
+# Ver senha do qBittorrent
+docker logs -f qbittorrent
 
 # Atualizar
 docker compose pull && docker compose up -d

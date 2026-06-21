@@ -44,7 +44,7 @@
 
     - qBittorrent:
         icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/qbittorrent.png
-        href: http://192.168.2.100:9091
+        href: http://192.168.2.100:8080
         description: Cliente de torrents integrado ao Jellyfin.
         server: homelab
         container: qbittorrent
