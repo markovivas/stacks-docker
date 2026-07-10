@@ -1,98 +1,236 @@
+/* ==========================================================================
+   HOMEPAGE CUSTOM THEME - GLASSMORPHIC NEON TECH
+   ========================================================================== */
+
+/* 1. Importação da Fonte Outfit */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
+/* 2. Variáveis de Cores e Efeitos */
+:root {
+  --font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --bg-fallback: #050811;
+  --card-bg: rgba(13, 20, 35, 0.45);
+  --card-border: rgba(255, 255, 255, 0.06);
+  --section-bg: rgba(9, 15, 29, 0.25);
+  --section-border: rgba(255, 255, 255, 0.04);
+  --glow-color: rgba(99, 102, 241, 0.25);
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-accent: #a5b4fc;
+}
+
+/* 3. Estilos de Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(13, 20, 35, 0.3);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(99, 102, 241, 0.3);
+  border-radius: 5px;
+  border: 2px solid var(--bg-fallback);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(99, 102, 241, 0.5);
+}
+
+/* 4. Corpo e Layout Global */
 body {
-  background: #0b1220 !important;
-  color: #e5eefb;
+  font-family: var(--font-sans) !important;
+  background-color: var(--bg-fallback) !important;
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(31, 41, 234, 0.14) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(99, 102, 241, 0.14) 0px, transparent 50%),
+    radial-gradient(at 50% 100%, rgba(139, 92, 246, 0.12) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, rgba(16, 185, 129, 0.06) 0px, transparent 50%) !important;
+  background-attachment: fixed !important;
+  background-size: cover !important;
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 #__next {
   min-height: 100vh;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0));
+  background: transparent !important;
 }
 
 main {
   max-width: 1800px;
   margin: 0 auto;
-  padding-left: 24px;
-  padding-right: 24px;
+  padding: 32px 24px;
 }
 
-header,
-section,
-article {
-  border-radius: 20px;
-}
-
-section,
-article {
-  background: rgba(15, 23, 42, 0.72) !important;
-  border: 1px solid rgba(148, 163, 184, 0.14);
-  box-shadow:
-    0 20px 45px rgba(2, 6, 23, 0.34),
-    inset 0 1px 0 rgba(255, 255, 255, 0.04);
-}
-
+/* 5. Cabeçalho (Header) */
 header {
-  background: rgba(15, 23, 42, 0.9) !important;
-  border: 1px solid rgba(148, 163, 184, 0.18);
-  box-shadow: 0 18px 40px rgba(2, 6, 23, 0.28);
+  background: rgba(13, 20, 35, 0.5) !important;
+  border: 1px solid var(--card-border) !important;
+  border-radius: 20px !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  padding: 24px 32px !important;
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+  margin-bottom: 32px !important;
 }
 
-h1,
-h2,
-h3,
-[class*="heading"],
-[class*="title"] {
+/* Título e Texto do Cabeçalho */
+header h1,
+header [class*="title"] {
+  font-weight: 700 !important;
+  letter-spacing: -0.01em;
+  background: linear-gradient(135deg, #ffffff 40%, var(--text-accent) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* 6. Containers de Seção (Grupos de Serviços) */
+section {
+  background: var(--section-bg) !important;
+  border: 1px solid var(--section-border) !important;
+  border-radius: 24px !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  padding: 24px !important;
+  box-shadow: 
+    0 16px 36px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.02) !important;
+  margin-bottom: 24px !important;
+}
+
+/* Títulos das Seções */
+section h2,
+section [class*="heading"],
+section [class*="title"] {
+  font-weight: 600 !important;
+  color: var(--text-accent) !important;
   letter-spacing: 0.02em;
+  text-transform: uppercase;
+  font-size: 0.875rem !important;
+  opacity: 0.9;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding-bottom: 12px;
+  margin-bottom: 18px !important;
 }
 
-a {
-  transition:
-    transform 180ms ease,
-    box-shadow 180ms ease,
-    border-color 180ms ease,
-    background-color 180ms ease;
+/* 7. Cards de Serviços Individuais */
+article,
+[class*="service-card"],
+[class*="widget-card"] {
+  background: var(--card-bg) !important;
+  border: 1px solid var(--card-border) !important;
+  border-radius: 16px !important;
+  box-shadow: 
+    0 4px 20px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
 }
 
-a:hover,
-article:hover {
-  transform: translateY(-2px);
+/* Hover nos Cards de Serviço */
+article:hover,
+[class*="service-card"]:hover,
+[class*="widget-card"]:hover {
+  transform: translateY(-4px) scale(1.005) !important;
+  border-color: rgba(99, 102, 241, 0.35) !important;
+  background: rgba(18, 28, 48, 0.6) !important;
+  box-shadow: 
+    0 12px 30px -10px var(--glow-color),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
 }
 
+/* Descrições nos cards */
+article p,
+[class*="description"] {
+  color: var(--text-secondary) !important;
+  font-size: 0.85rem !important;
+  line-height: 1.4 !important;
+}
+
+/* 8. Formulários, Busca e Inputs */
 input,
 textarea,
 select {
-  background: rgba(15, 23, 42, 0.88) !important;
-  border: 1px solid rgba(96, 165, 250, 0.2) !important;
-  border-radius: 14px !important;
-  color: #eff6ff !important;
-  box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.03);
+  background: rgba(13, 20, 35, 0.6) !important;
+  border: 1px solid rgba(99, 102, 241, 0.2) !important;
+  border-radius: 12px !important;
+  color: var(--text-primary) !important;
+  font-family: var(--font-sans) !important;
+  backdrop-filter: blur(8px);
+  padding: 10px 16px !important;
+  transition: all 0.2s ease !important;
 }
 
 input:focus,
 textarea:focus,
 select:focus {
-  border-color: rgba(96, 165, 250, 0.45) !important;
-  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.12) !important;
+  border-color: rgba(99, 102, 241, 0.5) !important;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15) !important;
+  outline: none !important;
 }
 
+/* 9. Botões */
 button {
-  border-radius: 14px !important;
+  border-radius: 12px !important;
+  font-family: var(--font-sans) !important;
+  transition: all 0.2s ease !important;
 }
 
-[class*="service"],
-[class*="widget"],
-[class*="bookmark"] {
-  backdrop-filter: blur(18px);
+/* 10. Widgets e Gráficos de Recursos */
+[class*="widget"] {
+  backdrop-filter: blur(10px) !important;
 }
 
-[class*="status"] {
-  filter: saturate(1.1);
+/* Barras de Progresso customizadas */
+progress, 
+[class*="progress-bar"],
+div[class*="bg-gray-"][class*="h-"] {
+  border-radius: 9999px !important;
+  overflow: hidden;
 }
 
+/* Estilo para elementos de progresso do Homepage */
+div[class*="bg-"][class*="-500"] {
+  /* Cores de progresso com gradiente nos widgets */
+  filter: saturate(1.1) brightness(1.1);
+}
+
+/* 11. Pontos de Status (Docker / Containers) */
+/* Alvo para o círculo pulsante de status ativo (verde) */
+.bg-green-500, 
+.bg-emerald-500, 
+[class*="status-green"], 
+[class*="status-emerald"] {
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.8) !important;
+  animation: pulse-glow-green 2s infinite alternate !important;
+}
+
+@keyframes pulse-glow-green {
+  0% {
+    box-shadow: 0 0 3px rgba(16, 185, 129, 0.5);
+    transform: scale(0.92);
+  }
+  100% {
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.95);
+    transform: scale(1.08);
+  }
+}
+
+/* Status inativos ou parados (cinza / vermelho) */
+.bg-red-500, 
+[class*="status-red"] {
+  box-shadow: 0 0 6px rgba(239, 68, 68, 0.6) !important;
+}
+
+/* 12. Grid e Alinhamento de Widgets */
 [class*="information-widgets"] {
   display: grid !important;
   grid-template-columns: minmax(0, 3fr) minmax(280px, 1fr) minmax(240px, 1fr);
-  gap: 16px;
+  gap: 20px;
   align-items: stretch;
+  margin-bottom: 24px;
 }
 
 [class*="information-widgets"] > * {
@@ -100,26 +238,8 @@ button {
   width: auto !important;
 }
 
-[class*="information-widgets"] > :first-child {
-  grid-column: 1;
-}
-
-[class*="information-widgets"] > :nth-child(2) {
-  grid-column: 2;
-}
-
-[class*="information-widgets"] > :nth-child(3) {
-  grid-column: 3;
-}
-
 @media (max-width: 1100px) {
   [class*="information-widgets"] {
     grid-template-columns: 1fr;
-  }
-
-  [class*="information-widgets"] > :first-child,
-  [class*="information-widgets"] > :nth-child(2),
-  [class*="information-widgets"] > :nth-child(3) {
-    grid-column: auto;
   }
 }

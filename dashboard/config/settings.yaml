@@ -19,6 +19,10 @@ layout:
     columns: 2
   Arquivos:
     columns: 2
+  Rede:
+    columns: 2
+  Documentos:
+    columns: 2
 
 cardBlur: sm
 opacity: 85
