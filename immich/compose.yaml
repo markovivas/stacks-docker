@@ -1,75 +1,85 @@
-# Arquivo Docker Compose do Immich
-# Nota: Este arquivo depende das variáveis definidas no arquivo `.env` no mesmo diretório.
+name: immich
 
 services:
   immich-server:
     container_name: immich_server
-    image: ghcr.io/immich-app/immich-server:release
+    image: ghcr.io/immich-app/immich-server:${IMMICH_VERSION:-release}
+
+    # Para aceleração de vídeo (opcional)
+    # extends:
+    #   file: hwaccel.transcoding.yml
+    #   service: cpu
+
     volumes:
-      - ${UPLOAD_LOCATION}:/usr/src/app/upload
+      - ${UPLOAD_LOCATION}:/data
       - /etc/localtime:/etc/localtime:ro
+
     env_file:
       - .env
+
     ports:
       - "2283:2283"
+
     depends_on:
       - redis
       - database
-    restart: unless-stopped
+
+    restart: always
+
+    healthcheck:
+      disable: false
 
   immich-machine-learning:
     container_name: immich_machine_learning
-    image: ghcr.io/immich-app/immich-machine-learning:release
+
+    # Exemplo para CUDA:
+    # image: ghcr.io/immich-app/immich-machine-learning:${IMMICH_VERSION:-release}-cuda
+
+    image: ghcr.io/immich-app/immich-machine-learning:${IMMICH_VERSION:-release}
+
     volumes:
       - model-cache:/cache
+
     env_file:
       - .env
-    restart: unless-stopped
+
+    restart: always
+
+    healthcheck:
+      disable: false
 
   redis:
     container_name: immich_redis
-    image: docker.io/library/redis:6.2-alpine
-    restart: unless-stopped
+    image: docker.io/valkey/valkey:9
+
+    healthcheck:
+      test: redis-cli ping || exit 1
+
+    restart: always
 
   database:
     container_name: immich_postgres
-    image: docker.io/tensorchord/pgvecto-rs:pg14-v0.2.0
+
+    image: ghcr.io/immich-app/postgres:14-vectorchord0.4.3-pgvectors0.2.0
+
     environment:
-      POSTGRES_DB: ${DB_DATABASE_NAME}
-      POSTGRES_USER: ${DB_USERNAME}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_DB: ${DB_DATABASE_NAME}
+      POSTGRES_INITDB_ARGS: '--data-checksums'
+
+      # Descomente apenas se o banco estiver em HD mecânico
+      # DB_STORAGE_TYPE: HDD
+
     volumes:
       - ${DB_DATA_LOCATION}:/var/lib/postgresql/data
-    restart: unless-stopped
-    command: ["postgres", "-c", "shared_preload_libraries=vectors.so", "-c", "shared_buffers=512MB", "-c", "row_security=off"]
+
+    shm_size: 128mb
+
+    restart: always
+
+    healthcheck:
+      disable: false
 
 volumes:
   model-cache:
-
-
-
-# ================================
-# Arquivo .env obrigatório
-# ================================
-#
-# Copie o .env.example para .env
-# e ajuste os valores.
-#
-# ================================
-
-
-
-# ================================
-# Acesso ao Immich
-# ================================
-#
-# URL:
-# http://localhost:2283
-#
-# Primeiro acesso:
-#
-# 1 - Acesse http://localhost:2283
-# 2 - Crie o usuário administrador
-# 3 - Comece a fazer upload das fotos
-#
-# ================================
