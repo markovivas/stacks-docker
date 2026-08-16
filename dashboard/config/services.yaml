@@ -116,6 +116,12 @@
         server: homelab
         container: portainer
 
+- Sistema:
+    - Cockpit:
+        icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/cockpit.png
+        href: https://192.168.2.100:9090
+        description: Interface de administração do servidor Linux.
+
 - Documentos:
     - Paperless-ngx:
         icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/paperless-ngx.png

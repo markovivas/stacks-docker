@@ -21,6 +21,8 @@ layout:
     columns: 2
   Rede:
     columns: 2
+  Sistema:
+    columns: 2
   Documentos:
     columns: 2
 

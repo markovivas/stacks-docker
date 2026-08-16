@@ -131,6 +131,7 @@ Ambiente de desenvolvimento PHP local com Apache 8.2, MySQL, phpMyAdmin e MailHo
 | XAMPP MySQL        | 3307      |
 | XAMPP MailHog      | 8025      |
 | Vaultwarden        | 443       |
+| Cockpit            | 9090      |
 
 ---
 
