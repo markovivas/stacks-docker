@@ -1,18 +1,18 @@
 services:
 
   # ================================
-  # Banco de Dados MySQL
+  # Banco de Dados MariaDB
   # ================================
   db:
-    image: mysql:8.0
+    image: mariadb:10.11
     container_name: wordpress_db
     restart: always
 
     environment:
-      MYSQL_ROOT_PASSWORD: root123
-      MYSQL_DATABASE: wordpress
-      MYSQL_USER: wpuser
-      MYSQL_PASSWORD: wp123
+      MARIADB_ROOT_PASSWORD: root123
+      MARIADB_DATABASE: wordpress
+      MARIADB_USER: wpuser
+      MARIADB_PASSWORD: wp123
 
     volumes:
       - db_data:/var/lib/mysql
@@ -20,6 +20,20 @@ services:
     ports:
       - "3306:3306"
 
+    # Verifica se o MariaDB está realmente pronto
+    # antes de liberar os serviços dependentes.
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "healthcheck.sh",
+          "--connect",
+          "--innodb_initialized"
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 30s
 
 
   # ================================
@@ -30,8 +44,11 @@ services:
     container_name: wordpress_app
     restart: always
 
+    # Aguarda o MariaDB ficar saudável antes
+    # de iniciar o WordPress.
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 
     ports:
       - "9081:80"
@@ -46,7 +63,6 @@ services:
       - ./data:/var/www/html
 
 
-
   # ================================
   # phpMyAdmin
   # ================================
@@ -55,28 +71,45 @@ services:
     container_name: wordpress_phpmyadmin
     restart: always
 
+    # Aguarda o MariaDB ficar saudável.
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 
     ports:
       - "9082:80"
 
     environment:
       PMA_HOST: db
+      PMA_PORT: 3306
       MYSQL_ROOT_PASSWORD: root123
-
 
 
   # ================================
   # Backup automático diário
+  # ================================
+  #
+  # Este serviço faz o backup do BANCO DE DADOS MariaDB.
+  #
+  # O backup do wp-content e wp-config.php é feito
+  # pelo serviço "wordpress_files_backup" abaixo.
+  #
+  # Os backups ficam na pasta:
+  #
+  # ./backups/
+  #
+  # O banco é salvo automaticamente todos os dias
+  # às 02:00.
   # ================================
   backup:
     image: fradelg/mysql-cron-backup
     container_name: wordpress_backup
     restart: always
 
+    # Aguarda o MariaDB ficar saudável.
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 
     volumes:
       - ./backups:/backup
@@ -94,13 +127,80 @@ services:
       MAX_BACKUPS: 7
 
 
+  # ================================
+  # Backup dos arquivos do WordPress
+  # ================================
+  #
+  # Faz backup dos arquivos importantes do WordPress:
+  #
+  # - wp-content/
+  #   ├── plugins/
+  #   ├── themes/
+  #   └── uploads/
+  #
+  # - wp-config.php
+  #
+  # O backup é executado diariamente às 02:00.
+  #
+  # Os arquivos são compactados em .tar.gz
+  # e armazenados em:
+  #
+  # ./backups/files/
+  #
+  # Mantém os últimos 7 backups.
+  # ================================
+  wordpress_files_backup:
+    image: alpine:latest
+    container_name: wordpress_files_backup
+    restart: always
+
+    volumes:
+      # Arquivos do WordPress
+      - ./data:/wordpress:ro
+
+      # Pasta onde os backups serão armazenados
+      - ./backups/files:/backup
+
+    command: >
+      /bin/sh -c "
+        apk add --no-cache tar &&
+        while true; do
+
+          NOW=$$(date +%Y-%m-%d_%H-%M-%S);
+
+          echo '================================';
+          echo 'Iniciando backup dos arquivos';
+          echo \"Data: $$NOW\";
+          echo '================================';
+
+          tar -czf /backup/wp-files-$$NOW.tar.gz
+          -C /wordpress
+          wp-content
+          wp-config.php;
+
+          echo 'Backup concluído!';
+
+          echo 'Removendo backups com mais de 7 dias...';
+
+          find /backup
+          -type f
+          -name 'wp-files-*.tar.gz'
+          -mtime +7
+          -delete;
+
+          echo 'Próximo backup em 24 horas.';
+
+          sleep 86400;
+
+        done
+      "
+
 
 # ================================
 # Volumes
 # ================================
 volumes:
   db_data:
-
 
 
 # ================================
@@ -110,13 +210,11 @@ volumes:
 # Porta: 3306
 # Usuário: wpuser
 # Senha: wp123
-# Banco: wordpress
 #
 # Ou como root:
-# Usuário root: root
-# Senha root: root123
+# Usuário: root
+# Senha: root123
 # ================================
-
 
 
 # ================================
@@ -136,4 +234,42 @@ volumes:
 #
 # WordPress:
 # http://localhost:9081
+# ================================
+
+
+# ================================
+# Backups
+# ================================
+#
+# Backup do banco:
+# ./backups/
+#
+# Backup dos arquivos:
+# ./backups/files/
+#
+# O backup dos arquivos contém:
+#
+# wp-content/
+# wp-config.php
+#
+# ================================
+
+
+# ================================
+# Comando para disparar backup do
+# banco de dados agora:
+# ================================
+#
+# docker exec wordpress_backup backup
+#
+# ================================
+
+
+# ================================
+# Comando para verificar os backups:
+# ================================
+#
+# ls -lah ./backups
+# ls -lah ./backups/files
+#
 # ================================
