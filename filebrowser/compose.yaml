@@ -1,0 +1,33 @@
+services:
+  filebrowser:
+    image: filebrowser/filebrowser:latest
+    container_name: filebrowser
+    user: "0:0" # roda como root para evitar "Operation not permitted" em /dados
+    ports:
+      - "8087:80"
+    volumes:
+      - ./files:/srv
+      - ./database:/database
+      - ./config:/config
+    restart: unless-stopped
+    # Cria admin automaticamente no primeiro up, sem depender de arquivo externo
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        set -e
+        DB="/database/filebrowser.db"
+        CFG="/config/settings.json"
+        mkdir -p /srv /database /config
+        if [ ! -f "$$CFG" ]; then
+          echo "[init] config init..."
+          filebrowser config init --config "$$CFG" --database "$$DB" || true
+        fi
+        if [ ! -f "$$DB" ]; then
+          echo "[init] criando admin..."
+          filebrowser users add admin '123456789@qwe' --perm.admin --config "$$CFG" --database "$$DB" || true
+        else
+          # garante admin mesmo se DB já existia
+          filebrowser users find admin --config "$$CFG" --database "$$DB" >/dev/null 2>&1 || filebrowser users add admin '123456789@qwe' --perm.admin --config "$$CFG" --database "$$DB" || true
+        fi
+        echo "[ok] iniciando em http://0.0.0.0:80 (host:8087) root=/srv admin/123456789@qwe"
+        exec filebrowser --config "$$CFG" --database "$$DB" --root /srv --address 0.0.0.0 --port 80
